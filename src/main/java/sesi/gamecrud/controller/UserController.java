@@ -1,5 +1,6 @@
 package sesi.gamecrud.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,9 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user){
+    public ResponseEntity<User> addUser(@RequestBody @Valid User user){
         User savedUser = userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
@@ -40,6 +42,17 @@ public class UserController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    userRepository.deleteById(id);
+                    return ResponseEntity.noContent().build(); // 204 sem corpo
+                })
+                .orElse(ResponseEntity.notFound().build());   // 404 se não achar
+    }
+
 
 
 }

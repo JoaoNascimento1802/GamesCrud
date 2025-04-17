@@ -9,6 +9,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Integer version;
+
     private String name;
 
     private String password;
@@ -17,12 +20,12 @@ public class User {
     private String email;
 
     @Column(unique=true)
-    private int phone;
+    private Integer phone;
 
     public User() {
     }
 
-    public User(Long id, String name, String password, String email, int phone) {
+    public User(Long id, String name, String password, String email, Integer phone) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -62,11 +65,19 @@ public class User {
         this.email = email;
     }
 
-    public int getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }
